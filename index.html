@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0b3d91">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vestige">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vestige – Machines Left Behind on the Moon and Mars</title>
+<style>
+:root{--bg:#f4f1ea;--fg:#1b1d2a;--mut:#5b5f73;--card:#fff;--line:#d8d4c8;--acc:#b8431f;--acc2:#1f5fb8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0d1a;--fg:#eceaf4;--mut:#9aa0bd;--card:#141933;--line:#2a3158;--acc:#ff7a45;--acc2:#6aa6ff}}
+:root[data-theme="dark"]{--bg:#0a0d1a;--fg:#eceaf4;--mut:#9aa0bd;--card:#141933;--line:#2a3158;--acc:#ff7a45;--acc2:#6aa6ff}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 Georgia,"Times New Roman",serif}
+nav{display:flex;gap:4px;overflow-x:auto;padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+nav a{font:600 13px system-ui,sans-serif;color:var(--mut);text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap}
+nav a.on{background:var(--acc);color:#fff}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+main{max-width:880px;margin:0 auto;padding:18px 16px 60px}
+h1{font-size:clamp(28px,7vw,48px);line-height:1.1;margin:.2em 0}h2{font-size:24px;margin:1.2em 0 .4em}h3{font-size:17px;margin:1.1em 0 .2em;color:var(--acc)}
+.sans,.btn,.tag,button{font-family:system-ui,sans-serif}
+.hero{padding:34px 0 10px;text-align:center}
+.hero .sub{color:var(--mut);max-width:560px;margin:10px auto 22px}
+.orbs{display:flex;justify-content:center;gap:26px;margin:18px 0}
+.btn{display:inline-block;background:var(--acc);color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:700;font-size:14px;text-decoration:none;margin:4px;cursor:pointer}
+.btn.alt{background:var(--acc2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.card h3{margin:.2em 0;color:var(--fg)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--mut);margin:0 4px 4px 0}
+.tag.lost{color:var(--acc);border-color:var(--acc)}.tag.act{color:#2e9e5b;border-color:#2e9e5b}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.chips button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:99px;padding:7px 13px;font-size:13px;cursor:pointer}
+.chips button.on{background:var(--acc2);color:#fff;border-color:var(--acc2)}
+svg.map{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--card)}
+.tl{border-left:2px solid var(--acc);margin:10px 0 10px 8px;padding-left:16px}
+.tl div{margin-bottom:14px;position:relative}.tl div::before{content:"";position:absolute;left:-23px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--acc)}
+.tl b{font:700 13px system-ui,sans-serif;color:var(--acc)}
+.sig{border:1px solid var(--acc);border-radius:14px;padding:6px 16px 10px;margin-top:18px;background:var(--card)}
+.know{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:560px){.know{grid-template-columns:1fr}}
+.note{font:13px system-ui,sans-serif;color:var(--mut)}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:10px;margin:6px 0;font-size:15px;cursor:pointer}
+.opt.ok{border-color:#2e9e5b;background:rgba(46,158,91,.18)}.opt.bad{border-color:var(--acc);background:rgba(255,122,69,.18)}
+a{color:var(--acc2)}
+:root{--acc:#fc3d21;--acc2:#0b3d91}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--acc:#fc3d21;--acc2:#5b9bff;--card:rgba(14,20,48,.82)}}
+:root[data-theme="dark"]{--acc:#fc3d21;--acc2:#5b9bff;--card:rgba(14,20,48,.82)}
+body{font-family:Helvetica,Arial,sans-serif}
+h1,h2,h3{font-family:Helvetica,Arial,sans-serif;text-transform:uppercase;letter-spacing:.03em}
+h3{font-size:14px}
+canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
+.top .bar{background:#0b3d91;color:#fff;padding:12px 16px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;border-bottom:3px solid #fc3d21}
+.top .bar b{font-size:20px;letter-spacing:.12em}.top .bar span{font-size:13px;opacity:.85}
+.disc{font:11px system-ui,sans-serif;color:var(--mut);padding:6px 16px;background:var(--card)}
+#gl{width:100%;height:min(80vw,420px);touch-action:none;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.45);overflow:hidden}
+#gl canvas{display:block}
+.hero{background:radial-gradient(ellipse at 50% 130%,rgba(252,61,33,.28),transparent 60%)}
+html{overscroll-behavior:none}body{-webkit-tap-highlight-color:transparent}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15}.top .bar{padding:10px 16px;justify-content:center}
+nav{position:fixed;top:auto;bottom:0;left:0;right:0;display:flex;justify-content:space-around;gap:0;overflow:visible;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);border-bottom:0;background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:20}
+nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;padding:4px 2px;border-radius:10px;background:none;color:var(--mut);user-select:none}
+nav a i{font-style:normal;font-size:21px;line-height:1}
+nav a.on{background:none;color:var(--acc)}
+main{padding-bottom:100px}
+.btn:active,.card:active,nav a:active{transform:scale(.97)}
+#pic{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center;opacity:0;transition:opacity .7s}
+#pic.on{opacity:.5}@media (prefers-color-scheme:light){#pic.on{opacity:.22}}
+#pic::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,var(--bg) 0%,transparent 28%,transparent 45%,var(--bg) 100%)}
+.cc{border-left:6px solid var(--c);background:linear-gradient(135deg,color-mix(in srgb,var(--c) 24%,var(--card)),var(--card))}
+.cc h3{color:var(--c)}
+#m3{width:100%;height:min(80vw,340px);touch-action:none;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.45);overflow:hidden;margin-bottom:8px}#m3 canvas{display:block}
+.ph{display:flex;gap:10px;overflow-x:auto;padding:4px 0 8px;scroll-snap-type:x mandatory}.ph figure{margin:0;flex:0 0 78%;max-width:340px;scroll-snap-align:start}
+.ph img,.gg img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:1px solid var(--line);display:block;cursor:pointer;background:#000}
+figcaption{font:12px/1.4 system-ui,sans-serif;color:var(--mut);margin-top:4px}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.gg figure{margin:0}
+.thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-bottom:6px;display:block}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px}#lb.on{display:flex}#lb img{max-width:100%;max-height:78vh;border-radius:8px}#lb p{color:#ddd;font:14px system-ui,sans-serif;text-align:center;max-width:560px}
+#rd{position:fixed;inset:0;z-index:40;display:none;flex-direction:column;background:radial-gradient(ellipse at 50% 120%,color-mix(in srgb,var(--c) 35%,#05070f),#05070f 70%);color:#f2f0f7;padding:calc(18px + env(safe-area-inset-top,0px)) 20px calc(18px + env(safe-area-inset-bottom,0px))}
+#rd.on{display:flex}
+#rd .rb{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.38;animation:fi 1.8s ease both}
+#rd .rb::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,7,15,.75),rgba(5,7,15,.35) 45%,rgba(5,7,15,.9))}
+#rd .rp{position:relative;display:flex;gap:4px;margin-right:34px}#rd .rp i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.25)}#rd .rp i.on{background:var(--c)}
+#rd .rx{position:absolute;right:14px;top:calc(8px + env(safe-area-inset-top,0px));z-index:2;background:none;border:0;color:#fff;font-size:30px;line-height:1;cursor:pointer}
+#rd .rc{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;max-width:620px;width:100%;margin:0 auto;overflow-y:auto}
+#rd .rch{font:700 12px system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--c);animation:fi .8s ease both}
+#rd .rtx{font:clamp(21px,5.4vw,30px)/1.5 Georgia,serif;margin:.3em 0 .6em;animation:fi 1.3s .35s ease both}
+#rd .rn{position:relative;display:flex;justify-content:space-between;align-items:center;max-width:620px;width:100%;margin:0 auto;font:13px system-ui,sans-serif;color:#aab}
+#rd .rn button{background:rgba(255,255,255,.1);color:#fff;border:0;border-radius:99px;padding:10px 18px;font-size:14px;cursor:pointer}
+@keyframes fi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+</style></head><body>
+<div id="rd"></div><div id="lb" onclick="this.classList.remove('on')"><img id="lbi" alt=""><p id="lbc"></p></div><div id="pic"></div><canvas id="bg"></canvas><header class="top"><div class="bar"><b>VESTIGE</b></div></header><nav id="nav"></nav><main id="app"></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const D=[
+{id:1,n:"Apollo Lunar Roving Vehicle",b:"Moon",cat:"Rovers",m:"Apollo 15, 16, 17",yr:"1971–72",st:"Parked, inactive",k:"park",loc:"Hadley, Descartes and Taurus-Littrow sites",
+meet:"A two-person, four-wheeled electric car with woven-wire wheels, built by Boeing and GM with NASA Marshall. It weighed about 450 lb on Earth and folded into the Lunar Module.",
+mis:"Let crews travel far beyond walking range, carrying astronauts, tools, cameras and samples.",
+jr:"Three flew, one per mission. Apollo 15 drove about 25 km, Apollo 16 about 27 km and Apollo 17 about 35 km. Crews hit about 17–18 km/h.",
+fin:"Built to be left: only crew and samples went home in the ascent stage. Each rover was parked near its lander after the last drive.",
+acc:"Apollo 15’s crew covered almost 4 times the ground of Apollo 11, 12 and 14 combined. Apollo 17 brought home 112 kg of samples.",
+leg:"Its distance record stood until Opportunity passed it in 2013.",
+sci:["Carried tools, cameras and a drill to geology stops","Navigation system returned crews to the lander","Enabled the largest sample hauls of Apollo"],
+facts:["Wheels used zinc-coated piano wire with titanium treads","Apollo 17’s broken fender was fixed with maps and clamps"],
+steps:[["1971-07-31","First drive on the Moon (Apollo 15)."],["1972-04-23","Apollo 16’s final drive."],["1972-12","Apollo 17’s last EVA, about 35 km driven."]],
+know:"Tracks and all three rovers are visible in LRO images.",unk:"No operating records exist after the crews left, because they were not designed to run unattended.",
+sig:"No last signal: the crews parked them. We tell its final chapter instead.",
+pts:[[26.13174,3.63803,"Apollo 15 rover parking spot","e","ALSEP station also here"],[-8.9729,15.5037,"Apollo 16 rover parking spot","e","ALSEP station also here"],[20.1896,30.7769,"Apollo 17 rover parking spot","e","ALSEP station also here"]],
+src:"https://www.nasa.gov/wp-content/uploads/static/history/alsj/MSFC-LRV.pdf"},
+{id:2,n:"Apollo Lunar Surface Experiments Package (ALSEP)",b:"Moon",cat:"Scientific instruments",m:"Apollo 12, 14, 15, 16, 17",yr:"1969–72",st:"Shut down by NASA, 1977",k:"end",loc:"Five stations on the lunar near side",
+meet:"A self-powered science station run by a plutonium generator, built by Bendix. Each had a central station plus several instruments.",
+mis:"Keep measuring the Moon’s interior, magnetism, atmosphere and surroundings long after the astronauts left.",
+jr:"First stations switched on Nov 1969; the last on Dec 1972. Designed for 1–2 years, they ran for up to about 8.",
+fin:"NASA stopped commanding the stations on 30 Sep 1977 to free budget, not because they failed. They remain on the surface.",
+acc:"Seismic, magnetic and heat-flow data gave the principal information about the Moon’s interior.",
+leg:"Its solar-wind and radiation readings helped prepare for later human exploration.",
+sci:["Passive and active seismometers","Magnetometers and solar wind spectrometers","Heat-flow probes (Apollo 15, 17)","Dust, ion and ejecta detectors"],
+facts:["Apollo 16’s heat-flow cable was snapped during setup","Data still sits in NASA archives"],
+steps:[["1969-11-19","Apollo 12 station first transmits."],["1972-12-12","Apollo 17 station first transmits."],["1977-09-30","NASA ends ALSEP support."]],
+know:"The stations were commanded off, and their positions are surveyed from LRO.",unk:"Whether any transmitters still send is not documented.",
+sig:"A shutdown order is the ending here, not a lost signal.",
+pts:[[-3.0098,-23.4249,"Apollo 12 ALSEP","e",""],[-3.64419,-17.47768,"Apollo 14 ALSEP","e",""]],
+src:"https://www.nasa.gov/wp-content/uploads/static/history/alsj/19790014808_1979014808.pdf"},
+{id:3,n:"Sojourner",b:"Mars",cat:"Rovers",m:"Mars Pathfinder",yr:"1997",st:"Silent since Sep 1997",k:"lost",loc:"Ares Vallis, near the Carl Sagan Memorial Station",
+meet:"A 10.6 kg microwave-sized rover from JPL, the first wheeled rover on Mars, named for Sojourner Truth after a student contest.",
+mis:"Prove a small rover could drive on Mars and measure rocks with its APXS instrument.",
+jr:"Landed 4 Jul 1997 inside airbags and rolled out on 5 Jul. It studied about 16 rocks and soils at roughly 1 cm/s.",
+fin:"It never travelled far from its lander, which relayed its data. When the lander fell silent, so did the rover.",
+acc:"Found silica-rich rocks and rounded pebbles shaped by flowing water, so Mars was once warmer and wetter.",
+leg:"Its airbag landing was reused by Spirit and Opportunity.",
+sci:["Rock and soil chemistry (APXS)","Wheel-track soil mechanics","Hazard-avoidance tests","Lander weather data"],
+facts:["Rocks were named after cartoon characters","Lasted about 12 times its 7-day plan"],
+steps:[["1997-07-04","Pathfinder lands."],["1997-07-05","Sojourner drives onto Mars."],["1997-09-27","Last successful data transmission (sol 83)."],["1997-10-07","Final signal with no spacecraft data."],["1998-03","NASA ends recovery attempts."]],
+know:"Contact ended around sol 83 with the lander. NASA tried until March 1998.",unk:"The cause is not confirmed. A failed lander battery is the likely reason, and the rover’s final position is unknown.",
+sig:"Went silent with its lander.",pts:[[19.13,-33.22,"Pathfinder landing site","a",""]],
+src:"https://science.nasa.gov/mission/mars-pathfinder/"},
+{id:4,n:"Spirit",b:"Mars",cat:"Rovers",m:"Mars Exploration Rover",yr:"2004",st:"Silent since Mar 2010",k:"lost",loc:"Gusev crater, stuck near Home Plate",
+meet:"A golf-cart-sized JPL rover with cameras, spectrometers and a rock-grinding tool.",
+mis:"Look for clues to past water in Gusev crater. It was planned for 90 sols.",
+jr:"Landed 3 Jan 2004 (PST) and drove 7.73 km over 6 years, including a summit of Husband Hill.",
+fin:"On 1 May 2009 it broke through soft soil. It could not tilt to face the winter Sun. Contact ended 22 Mar 2010 and NASA stopped listening on 25 May 2011.",
+acc:"Found nearly pure silica, strong evidence of hot springs.",leg:"Showed rovers can outlive plans by 25 times.",
+sci:["Mini-TES, Mössbauer, APXS","Pancam and Navcam imaging","Dust-devil movies"],
+facts:["A broken wheel exposed the silica","Tool shield used World Trade Center aluminum"],
+steps:[["2004-01-03","Landing."],["2005-09-29","Husband Hill summit."],["2009-05-01","Stuck in soft soil."],["2010-03-22","Last communication."],["2011-05-25","NASA ends recovery efforts."]],
+know:"NASA sent more than 1,300 commands; the likely cause was cold defeating the survival heaters.",unk:"The rover’s exact condition is unknown.",
+sig:"Went silent in winter.",pts:[[-14.5692,175.4729,"Spirit landing site","a",""]],src:"https://science.nasa.gov/mission/mer-spirit/"},
+{id:5,n:"Opportunity",b:"Mars",cat:"Rovers",m:"Mars Exploration Rover",yr:"2004",st:"Silent since Jun 2018",k:"lost",loc:"Perseverance Valley, Endeavour crater",
+meet:"Spirit’s twin, a solar-powered JPL rover.",mis:"Find evidence of past water at Meridiani Planum. Planned for 90 sols.",
+jr:"Landed 24 Jan 2004 (PST), drove 45.16 km, and ran the first marathon off Earth in 2015.",
+fin:"A global dust storm blocked its sunlight. The last signal was 10 Jun 2018; NASA ended the mission on 13 Feb 2019.",
+acc:"Found a meteorite on Mars and evidence of wet conditions that may have supported life.",leg:"Perseverance passed its distance record on 11 Oct 2026.",
+sci:["Same instrument suite as Spirit","Crater tours up to Endeavour"],facts:["Lasted almost 15 years","Drove a 32° slope"],
+steps:[["2004-01-24","Landing."],["2015-03-25","Marathon distance reached."],["2018-06-10","Last communication in dust storm."],["2019-02-13","Mission declared complete."]],
+know:"The dust storm blocked power; NASA tried many recovery attempts.",unk:"Whether the rover is intact is unknown.",
+sig:"Went silent in a dust storm.",pts:[[-1.9483,-5.52583,"Opportunity landing site","a",""]],src:"https://science.nasa.gov/mission/mer-opportunity/"},
+{id:6,n:"Surveyor 3",b:"Moon",cat:"Landers",m:"Surveyor 3",yr:"1967",st:"Silent since May 1967",k:"lost",loc:"Oceanus Procellarum, ~180 m from Apollo 12",
+meet:"A robotic JPL lander with a TV camera and a soil scoop.",mis:"Prove a soft landing was possible and test whether the soil could carry an Apollo lander.",
+jr:"Landed 20 Apr 1967 after two bounces, took 6,326 TV images and dug trenches.",
+fin:"It did not survive its first lunar night; last contact was 4 May 1967. In Nov 1969 Apollo 12 astronauts removed its camera and scoop.",
+acc:"The soil was like wet sand and strong enough for Apollo.",leg:"Apollo 12 landed close by, proving precision landing.",
+sci:["TV imaging","Surface sampler trenches and bearing tests"],facts:["First hardware returned from another world"],
+steps:[["1967-04-20","Lands."],["1967-05-04","Last contact."],["1969-11-19","Apollo 12 visits."]],
+know:"Apollo 12 inspected it and returned parts.",unk:"Why it never woke up after the lunar night is not documented.",
+sig:"Lunar night ended it.",pts:[[-3.0,-23.41,"Surveyor 3 landing site","a",""]],src:"https://science.nasa.gov/mission/surveyor-3/"},
+{id:7,n:"Viking 1 Lander",b:"Mars",cat:"Landers",m:"Viking 1",yr:"1976",st:"Silent since Nov 1982",k:"lost",loc:"Chryse Planitia",
+meet:"A plutonium-powered lander with cameras, a soil-scooping arm and a biology lab.",mis:"Photograph Mars and search for signs of life.",
+jr:"Landed 20 Jul 1976 and sent the first surface photo. It worked for about 6 years.",
+fin:"A faulty command from Earth ended communications on 11 Nov 1982. JPL ended attempts on 12 Apr 1983.",
+acc:"No organic molecules found; the biology tests were ambiguous.",leg:"Its longevity record stood until Opportunity passed it in 2010.",
+sci:["Imaging","Soil chemistry","Biology tests","Weather"],facts:["Renamed Mutch Memorial Station in 1982"],
+steps:[["1976-07-20","Lands."],["1982-11-11","Faulty command ends contact."],["1983-04-12","JPL ends attempts."]],
+know:"A command error, not Mars, ended it.",unk:"Coordinates differ between NASA sources.",
+sig:"Went silent after a command mistake.",pts:[[22.483,-47.94,"Viking 1 landing site","a",""]],src:"https://science.nasa.gov/mission/viking-1/"},
+{id:8,n:"InSight",b:"Mars",cat:"Landers",m:"InSight",yr:"2018",st:"Silent since Dec 2022",k:"lost",loc:"Elysium Planitia",
+meet:"A JPL lander with a seismometer from France and a heat probe from Germany.",mis:"Study the deep interior of Mars.",
+jr:"Landed 26 Nov 2018 and detected 1,319 marsquakes.",
+fin:"Dust slowly covered its solar panels. Last contact was 15 Dec 2022 and NASA declared the mission over on 21 Dec.",
+acc:"Measured Mars’s crust, mantle and liquid core.",leg:"First seismic map of Mars’s interior.",
+sci:["Seismometer","Heat probe","Radio science","Weather sensors"],facts:["Recorded Martian wind"],
+steps:[["2018-11-26","Lands."],["2022-05-04","Largest marsquake."],["2022-12-15","Last communication."],["2022-12-21","Mission declared over."]],
+know:"Power ran out as dust built up.",unk:"Whether the lander could wake again is not documented.",
+sig:"Faded as dust covered its panels.",pts:[[4.5,135.9,"InSight landing area","a",""]],src:"https://science.nasa.gov/mission/insight/"},
+{id:9,n:"Pioneer 10",b:"Deep space",cat:"Space probes",m:"Pioneer 10",yr:"1972",st:"Silent since Jan 2003",k:"lost",loc:"Interstellar space",
+meet:"A 258 kg spacecraft by TRW for NASA Ames, powered by plutonium generators and carrying a plaque.",mis:"Cross the asteroid belt and fly by Jupiter.",
+jr:"Launched Mar 1972 and reached Jupiter on 4 Dec 1973.",
+fin:"The last signal was 23 Jan 2003; a final attempt in 2006 failed.",
+acc:"Showed the asteroid belt is safe to cross and mapped Jupiter’s radiation.",leg:"Inspired Voyager’s Golden Record.",
+sci:["Magnetometer","Radiation detectors","Imaging"],facts:["Heading toward Aldebaran"],
+steps:[["1973-12-04","Passes Jupiter."],["1997-03-31","Routine contact ends."],["2003-01-23","Last signal."],["2006-03-04","Final attempt fails."]],
+know:"Power faded until the signal could not be heard.",unk:"Its present condition cannot be known.",
+sig:"Faded away.",pts:[],src:"https://science.nasa.gov/mission/pioneer-10/"},
+{id:10,n:"Voyager 1",b:"Deep space",cat:"Space probes",m:"Voyager 1",yr:"1977",st:"Still operating",k:"act",loc:"Interstellar space",
+meet:"A 722 kg NASA JPL probe carrying a Golden Record.",mis:"Fly by Jupiter and Saturn, then keep going.",
+jr:"Launched 5 Sep 1977, entered interstellar space on 25 Aug 2012.",
+fin:"Still working. NASA is shutting down instruments one at a time to save power.",
+acc:"First direct measurements of interstellar space.",leg:"Informs future interstellar missions.",
+sci:["Magnetometer","Plasma waves"],facts:["Reaches one light-day from Earth on 18 Nov 2026"],
+steps:[["2012-08-25","Enters interstellar space."],["2026-04-17","Another instrument turned off."],["2026-10-20","Contact restored after a brief loss."]],
+know:"It still sends data.",unk:"How long its power will last.",
+sig:"Not silent. It is still speaking.",pts:[],src:"https://science.nasa.gov/mission/voyager/voyager-1/"}];
+const Q=[["Which was the first wheeled rover on Mars?",["Sojourner","Spirit","Curiosity"],0],["Why did NASA stop the Apollo ALSEP stations?",["They exploded","A budget decision","Aliens"],1],["What blocked Opportunity’s sunlight in 2018?",["A dust storm","A crater","Night"],0],["Which probe is about to be a light-day from Earth?",["Pioneer 10","Voyager 1","InSight"],1],["What ended Viking 1’s contact?",["Dust","A faulty command","A meteorite"],1]];
+const $=s=>document.querySelector(s),A=$("#app");
+const tags=d=>`<span class="tag">${d.b}</span><span class="tag ${d.k==="lost"?"lost":d.k==="act"?"act":""}">${d.st}</span>`;
+function nav(h){if(h==="map")h="explore";$("#nav").innerHTML=[["home","Home","\u{1F680}"],["explore","Explore","\u{1F30D}"],["library","Stories","\u{1F4D6}"],["gallery","Gallery","\u{1F5BC}"],["science","Science","\u{1F52C}"],["quiz","Quiz","\u{2B50}"]].map(([a,t,i])=>`<a href="#${a}" class="${h===a?"on":""}"><i>${i}</i>${t}</a>`).join("")}
+function home(){A.innerHTML=`<div class="hero"><p class="note">VESTIGE · NASA SPACE APPS CHALLENGE 2026</p><h1>Humanity has been to the Moon and Mars.<br>But not everything we took there came back.</h1><p class="sub">Discover the machines, instruments and forgotten technology that remain beyond Earth. Ten missions, from Surveyor 3 in 1967 to Voyager 1 today.</p><a class="btn" href="#explore" onclick="mb='Moon'">Explore the Moon</a><a class="btn alt" href="#explore" onclick="mb='Mars'">Explore Mars</a><div class="orbs"><svg width="90" height="90"><circle cx="45" cy="45" r="40" fill="#bdb9b0"/><circle cx="32" cy="34" r="8" fill="#9b968c"/><circle cx="56" cy="56" r="6" fill="#9b968c"/></svg><svg width="90" height="90"><circle cx="45" cy="45" r="40" fill="#c1502e"/><circle cx="36" cy="38" r="9" fill="#9b3d22"/></svg></div></div>${feat()}<div class="card"><h3>The Last Signal</h3><p>Open any machine to see how its story ended. Some went silent, some were switched off and some were simply parked. We never invent a final transmission.</p></div><p class="note" style="margin-top:16px">Unofficial student project for the NASA Space Apps Challenge, built from NASA open data. Not affiliated with or endorsed by NASA. Photos: NASA imagery.</p>`}
+let mb="Moon";
+function map(){const pts=[];D.forEach(d=>d.pts.filter(p=>d.b===mb).forEach(p=>pts.push([d,p])));
+A.innerHTML=`<h2>Exploration map</h2><div class="chips">${["Moon","Mars"].map(b=>`<button class="${b===mb?"on":""}" onclick="mb='${b}';map()">${b}</button>`).join("")}</div>
+<svg class="map" viewBox="0 0 360 180">${[...Array(7)].map((_,i)=>`<line x1="${i*60}" y1="0" x2="${i*60}" y2="180" stroke="var(--line)"/>`).join("")}${[...Array(4)].map((_,i)=>`<line x1="0" y1="${i*45}" x2="360" y2="${i*45}" stroke="var(--line)"/>`).join("")}${pts.map(([d,p],i)=>{let lon=p[1]>180?p[1]-360:p[1];const x=180+lon,y=90-p[0];return `<circle cx="${x}" cy="${y}" r="5" fill="${p[3]==="e"?d.col:"none"}" stroke="${d.col}" stroke-width="2" ${p[3]==="a"?'stroke-dasharray="2 2"':""} onclick="pick(${i})" style="cursor:pointer"/>`}).join("")}</svg>
+<p class="note">Solid dot = surveyed equipment location. Dashed ring = approximate landing site, not the exact equipment position. Map is a simple flat grid, not a real surface image.</p><div id="info" class="card">Tap a marker.</div>`;
+window.pick=i=>{const [d,p]=pts[i];$("#info").innerHTML=`<h3>${p[2]}</h3>${tags(d)}<p>${d.n} · ${d.m} · ${d.yr}<br>${p[4]?p[4]+"<br>":""}Status: ${d.st}<br>Marker: ${p[3]==="e"?"surveyed location":"approximate landing site"} (${p[0].toFixed(3)}°, ${p[1].toFixed(3)}°)</p><a class="btn" href="#item-${d.id}">Open profile</a>`}}
+function lib(){const cats=[...new Set(D.map(d=>d.cat))];A.innerHTML=`<h2>Stories</h2><p class="note">Ten machines left behind. Ten human stories. Tap one to begin.</p><div class="grid">${D.map(d=>`<a class="card cc" style="--c:${d.col};text-decoration:none;color:inherit" href="#story-${d.id}">${th(d)}<div>${tags(d)}</div><h3>${S[d.id].h}</h3><div class="note">${d.n}<br>${S[d.id].s.length} scenes · ${d.loc}</div></a>`).join("")}</div><p class="note">Categories: ${cats.join(", ")}. Photos: search each name in the <a href="https://images.nasa.gov/" target="_blank" rel="noopener">NASA Image and Video Library</a>.</p>`}
+function item(id){const d=D.find(x=>x.id===id);if(!d)return lib();A.innerHTML=`<div style="--acc:${d.col}"><a href="#library">← Library</a><h1>${d.n}</h1>${tags(d)}${storyHero(d)}<h3>3D model: tap a part</h3><div id="m3"></div><div class="chips" id="pl"></div><div id="pi" class="card">Tap a part on the model or in the list to see what it does.</div>${photos(d.id)}<h3>Meet the machine</h3><p>${d.meet}</p><h3>Its mission</h3><p>${d.mis}</p><h3>Its journey</h3><p>${d.jr}</p><h3>Its final chapter</h3><p>${d.fin}</p><h3>What it accomplished</h3><p>${d.acc}</p><h3>Its legacy</h3><p>${d.leg}</p>
+<div class="sig"><h3>The Last Signal</h3><p><b>${d.sig}</b></p><div class="tl">${d.steps.map(s=>`<div><b>${s[0]}</b><br>${s[1]}</div>`).join("")}</div><div class="know"><div><b>What we know</b><br>${d.know}</div><div><b>What we don’t</b><br>${d.unk}</div></div></div><p class="note">Source: <a href="${d.src}" target="_blank" rel="noopener">NASA</a></p></div>`;model(d)}
+function sci(){A.innerHTML=`<h2>The science that stayed</h2>${D.map(d=>`<div class="card cc" style="margin-bottom:10px;--c:${d.col}"><h3>${d.n}</h3><b>Instruments and activities</b><ul>${d.sci.map(s=>`<li>${s}</li>`).join("")}</ul><b>Discovery</b><p>${d.acc}</p><b>Did you know?</b> ${d.facts[0]}.</div>`).join("")}`}
+let qi=0,sc=0;
+function quiz(){if(qi>=Q.length){A.innerHTML=`<h2>Discovery quiz</h2><div class="card"><h3>Score: ${sc} / ${Q.length}</h3><button class="btn" onclick="qi=0;sc=0;quiz()">Try again</button></div>`;return}
+const q=Q[qi];A.innerHTML=`<h2>Discovery quiz</h2><div class="card"><p class="note">Question ${qi+1} of ${Q.length}</p><p><b>${q[0]}</b></p>${q[1].map((o,i)=>`<button class="opt" onclick="ans(${i})">${o}</button>`).join("")}</div>`;
+window.ans=i=>{document.querySelectorAll(".opt").forEach((b,j)=>{b.disabled=true;if(j===q[2])b.classList.add("ok");else if(j===i)b.classList.add("bad")});if(i===q[2])sc++;qi++;A.querySelector(".card").insertAdjacentHTML("beforeend",`<button class="btn" onclick="quiz()">Next</button>`)}}
+function route(){const h=location.hash.slice(1)||"home";const m=h.match(/^item-(\d+)$/),sm=h.match(/^story-(\d+)$/);$("#rd").classList.remove("on");nav(m||sm?"library":h);bgp(h);window.scrollTo(0,0);
+if(sm){lib();reader(+sm[1])}else if(m)item(+m[1]);else if(h==="map")map();else if(h==="explore")explore();else if(h==="gallery")gallery();else if(h==="library")lib();else if(h==="science")sci();else if(h==="quiz"){qi=0;sc=0;quiz()}else home()}
+function showPt(d,p){$("#info").innerHTML=`<h3>${p[2]}</h3>${tags(d)}<p>${d.n} · ${d.m} · ${d.yr}<br>${p[4]?p[4]+"<br>":""}Status: ${d.st}<br>Marker: ${p[3]==="e"?"surveyed location":"approximate landing site"} (${p[0].toFixed(3)}°, ${p[1].toFixed(3)}°)</p><a class="btn" href="#item-${d.id}">Open profile</a>`}
+function tex(moon){const c=document.createElement("canvas");c.width=1024;c.height=512;const g=c.getContext("2d");g.fillStyle=moon?"#8d8a84":"#b4532f";g.fillRect(0,0,1024,512);let s=moon?7:3;const r=()=>{s=(s*16807)%2147483647;return s/2147483647};
+for(let i=0;i<(moon?90:50);i++){const x=r()*1024,y=r()*512,R=30+r()*(moon?90:110),gr=g.createRadialGradient(x,y,0,x,y,R);gr.addColorStop(0,moon?"rgba(60,58,56,.5)":"rgba(70,28,16,.45)");gr.addColorStop(1,"rgba(0,0,0,0)");g.fillStyle=gr;g.fillRect(x-R,y-R,2*R,2*R)}
+for(let i=0;i<(moon?900:300);i++){const x=r()*1024,y=r()*512,R=1+r()*r()*14;g.strokeStyle="rgba(255,255,255,.18)";g.fillStyle="rgba(0,0,0,.22)";g.beginPath();g.arc(x,y,R,0,7);g.fill();g.stroke()}
+if(!moon){g.fillStyle="rgba(240,240,240,.85)";g.fillRect(0,0,1024,14);g.fillRect(0,498,1024,14)}
+return new THREE.CanvasTexture(c)}
+function explore(){if(!window.THREE){A.innerHTML=`<h2>3D explorer</h2><p>The 3D library did not load. Use the <a href="#map">flat map</a> instead.</p>`;return}
+const moon=mb==="Moon";A.innerHTML=`<h2>3D explorer</h2><div class="chips">${["Moon","Mars"].map(b=>`<button class="${b===mb?"on":""}" onclick="mb='${b}';explore()">${b}</button>`).join("")}</div><div id="gl"></div><p class="note">Drag to spin, tap a marker. Surface texture is generated for illustration, not a real NASA map. Solid dot = surveyed location, ring = approximate landing site; each color matches its machine. Pioneer 10 and Voyager 1 have no surface marker.</p><div id="info" class="card">Tap a marker.</div>`;
+const el=$("#gl"),W=el.clientWidth,H=el.clientHeight,sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,W/H,.1,100);cam.position.z=4.4;
+const rd=new THREE.WebGLRenderer({antialias:true,alpha:true});rd.setPixelRatio(Math.min(devicePixelRatio,2));rd.setSize(W,H);el.appendChild(rd.domElement);
+sc.add(new THREE.AmbientLight(0xffffff,.6));const L=new THREE.DirectionalLight(0xffffff,.9);L.position.set(3,2,4);sc.add(L);
+const gp=new THREE.Group(),gm=new THREE.Mesh(new THREE.SphereGeometry(1.5,64,48),new THREE.MeshStandardMaterial({map:tex(moon),roughness:1})),ms=[];gp.add(gm);sc.add(gp);gp.rotation.x=.2;
+D.filter(d=>d.b===mb).forEach(d=>d.pts.forEach(p=>{const lo=(p[1]>180?p[1]-360:p[1])*Math.PI/180,la=p[0]*Math.PI/180,R=1.53,m=new THREE.Mesh(p[3]==="e"?new THREE.SphereGeometry(.06,12,12):new THREE.TorusGeometry(.07,.018,8,20),new THREE.MeshBasicMaterial({color:new THREE.Color(d.col)}));m.position.set(R*Math.cos(la)*Math.sin(lo),R*Math.sin(la),R*Math.cos(la)*Math.cos(lo));m.lookAt(0,0,0);m.userData={d,p};gp.add(m);ms.push(m)}));
+let dn=0,mv=0,px=0,py=0;
+el.onpointerdown=e=>{dn=1;mv=0;px=e.clientX;py=e.clientY;el.setPointerCapture(e.pointerId)};
+el.onpointermove=e=>{if(!dn)return;const dx=e.clientX-px,dy=e.clientY-py;mv+=Math.abs(dx)+Math.abs(dy);gp.rotation.y+=dx*.008;gp.rotation.x=Math.max(-1.2,Math.min(1.2,gp.rotation.x+dy*.008));px=e.clientX;py=e.clientY};
+el.onpointerup=e=>{dn=0;if(mv<6){const b=el.getBoundingClientRect(),rc=new THREE.Raycaster();rc.setFromCamera(new THREE.Vector2((e.clientX-b.left)/b.width*2-1,-(e.clientY-b.top)/b.height*2+1),cam);const h=rc.intersectObjects([gm,...ms])[0];if(h&&ms.includes(h.object))showPt(h.object.userData.d,h.object.userData.p)}};
+(function f(){if(!document.body.contains(el))return;if(!dn)gp.rotation.y+=.002;rd.render(sc,cam);requestAnimationFrame(f)})()}
+(function(){const c=$("#bg"),x=c.getContext("2d"),rm=matchMedia("(prefers-reduced-motion:reduce)").matches;let W,H,S=[];
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight;S=Array.from({length:Math.round(W*H/4500)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+.2,v:Math.random()*.25+.03,p:Math.random()*6}))}
+function dr(t){x.clearRect(0,0,W,H);const fg=getComputedStyle(document.documentElement).getPropertyValue("--fg").trim()||"#fff";x.fillStyle=fg;
+const n=x.createRadialGradient(W*.75+Math.sin(t/9000)*40,H*.25,0,W*.75,H*.25,W*.6);n.addColorStop(0,"rgba(91,155,255,.14)");n.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=n;x.fillRect(0,0,W,H);x.fillStyle=fg;
+S.forEach(s=>{s.y+=rm?0:s.v;if(s.y>H)s.y=0;x.globalAlpha=.25+.6*Math.abs(Math.sin(t/900+s.p));x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill()});x.globalAlpha=1}
+function lp(t){dr(t);if(!rm)requestAnimationFrame(lp)}rs();addEventListener("resize",()=>{rs();dr(0)});lp(0)})();
+const COL={1:"#f2a33a",2:"#22c3b0",3:"#e0569f",4:"#ff6b4a",5:"#2fbf71",6:"#9b7bff",7:"#4aa3ff",8:"#ffd23f",9:"#c6e03a",10:"#e8ecff"};D.forEach(d=>d.col=COL[d.id]);
+const IMG={};"l1 l2 l3 l4 l5 a1 a2 a3 a4 a5 s1 s2 s3 j1 m1 n1 n2 n3 n4 x1".split(" ").forEach(k=>IMG[k]="images/p-"+k+".jpg");
+const LR="Lunar Roving Vehicle",AL="ALSEP",SU="Surveyor 3",ER="Early Mars rovers",TN="Then and now: Mars today",AR="More from the archive";
+const G=[["l1","The Lunar Roving Vehicle parked on the Moon with its dish antenna raised.",[1],LR],["l2","An astronaut beside the Lunar Roving Vehicle on the Moon.",[1],LR],["l3","Astronaut at the rover’s control console on the Moon, Apollo 17.",[1],LR],["l4","Artist’s sequence showing how the rover was unfolded from the Lunar Module (NASA Marshall).",[1],LR],["l5","Apollo 17 rover traverses: routes driven around the landing site.",[1],LR],
+["a1","An ALSEP instrument box resting on the lunar surface.",[2],AL],["a2","The Passive Seismic Experiment under its reflective thermal skirt.",[2],AL],["a3","An ALSEP central station with its antenna mast, wrapped in foil.",[2],AL],["a4","An ALSEP station: central station behind, seismometer under foil in front.",[2],AL],["a5","An ALSEP array on the Moon with flags marking the instruments.",[2],AL],
+["s1","Surveyor 3 on the Moon, photographed by Apollo 12 astronauts.",[6],SU],["s2","Surveyor 3 with the Apollo 12 Lunar Module on the horizon, about 180 m away.",[6],SU],["s3","Astronauts training with a Surveyor lander mock-up.",[6],SU],
+["j1","Sojourner beside rocks on Mars, seen by the Pathfinder lander’s camera.",[3],ER],["m1","A Mars Exploration Rover’s view of its own deck and the deflated landing airbags.",[4,5],ER],
+["n1","Today’s rover: the wheels and underside of Perseverance on Mars.",[],TN],["n2","The Ingenuity helicopter next to Perseverance (artist’s concept).",[],TN],["n3","The Ingenuity helicopter photographed on Mars.",[],TN],["n4","Ingenuity’s flights (green) and Perseverance’s route (orange) on an orbital map.",[],TN],
+["x1","Model of an early Mariner-series spacecraft from NASA’s archive.",[],AR]];
+const th=d=>{const g=G.find(x=>x[2].includes(d.id));return g?`<img class="thumb" src="${IMG[g[0]]}" alt="" loading="lazy">`:`<div class="thumb" style="background:linear-gradient(135deg,var(--c),transparent)"></div>`};
+const fig=g=>`<figure><img src="${IMG[g[0]]}" alt="${g[1]}" loading="lazy" onclick="openLb('${g[0]}')"><figcaption>${g[1]}<br>Photo: NASA</figcaption></figure>`;
+function photos(id){const l=G.filter(x=>x[2].includes(id));return l.length?`<h3>Photos</h3><div class="ph">${l.map(fig).join("")}</div>`:""}
+function openLb(k){const g=G.find(x=>x[0]===k);$("#lbi").src=IMG[k];$("#lbc").textContent=g[1]+" Photo: NASA";$("#lb").classList.add("on")}
+function gallery(){const gr=[...new Set(G.map(x=>x[3]))];A.innerHTML=`<h2>NASA image gallery</h2><p class="note">Tap a photo to enlarge it.</p>${gr.map(n=>`<h3>${n}</h3>${n===TN?`<div class="card" style="margin-bottom:10px">Then: Sojourner (1997) explored a patch of rocks near its lander. Now: Perseverance and the Ingenuity helicopter work as a pair. This compares two eras of Mars exploration; it does not claim one design directly led to the other.</div>`:""}<div class="gg">${G.filter(x=>x[3]===n).map(fig).join("")}</div>`).join("")}`}
+const R9=Math.PI/2,E=(n,f,rows)=>rows.map(r=>[n,f,...r]),MD={};
+const WH=[[-.9,.7],[-.9,-.7],[.9,.7],[.9,-.7]];
+MD[1]=[...E("Wheels","Four wheels woven from zinc-coated piano wire with titanium chevrons for grip. Each had its own quarter-horsepower motor.",WH.map(p=>["c",[.38,.16],[p[0],.38,p[1]],0x555a63,[R9,0,0]])),
+...E("Chassis","The aluminum frame. It folded up to ride inside the Lunar Module and unfolded on the Moon.",[["b",[2.4,.14,1.1],[0,.5,0],0xb8bcc4]]),
+...E("Seats","Two lightweight seats of webbing on tubular frames, one for each astronaut.",[["b",[.4,.5,.4],[-.2,.85,.3],0xd8d1c0],["b",[.4,.5,.4],[-.2,.85,-.3],0xd8d1c0]]),
+...E("Hand controller","A T-shaped stick between the seats steered and drove the rover.",[["c",[.04,.45],[.4,.85,0],0x222222]]),
+...E("Batteries and motors","Two 36-volt silver-zinc batteries fed four quarter-horsepower motors, one at each wheel.",[["b",[.5,.3,.7],[-.8,.7,0],0x3b6ea5]]),
+...E("Antenna and TV camera","A dish antenna on a mast talked to Earth, and a TV camera sent live pictures.",[["c",[.03,.9],[.95,.95,0],0xcccccc],["c",[.4,.03],[.95,1.45,0],0xd8c58a,[.35,0,0]]])];
+MD[2]=[...E("Central station","Receives commands from Earth, sends data back, and shares power among the instruments.",[["b",[.8,.5,.6],[0,.45,0],0xd4b25a]]),
+...E("Radioisotope power unit (RTG)","A SNAP-27 generator turns heat from plutonium into about 70 watts, enough to run the whole station for years.",[["c",[.2,.8],[1.4,.4,0],0x6b7280]]),
+...E("Passive seismometer","Listens for moonquakes and meteoroid impacts. The seismic network showed the Moon is not geologically dead.",[["c",[.3,.3],[-.9,.15,.6],0xc0c6d0]]),
+...E("Heat-flow probe","Measures how much heat escapes from the Moon’s interior (Apollo 15 and 17).",[["c",[.04,.55],[-.8,.28,-.7],0xe3e3e3]]),
+...E("Magnetometer","Measures magnetic fields at the surface (Apollo 12, 15 and 16).",[["s",[.16],[-.2,.18,-.9],0xe6b34a]]),
+...E("Antenna","A mast antenna sends data to Earth and receives commands.",[["c",[.025,.9],[.2,1.15,0],0xeeeeee]])];
+MD[3]=[...E("Body","Holds the computer and electronics. Its onboard computer ran about 100,000 instructions per second.",[["b",[.9,.35,.65],[0,.55,0],0xd7d9de]]),
+...E("Solar panel","Turns sunlight into power during the Martian day.",[["b",[.9,.03,.65],[0,.76,0],0x2a3f8f]]),
+...E("Six wheels","Six wheels on a rocker-bogie suspension climbed over small rocks. Its wheel tracks revealed how the soil behaves.",[-.45,0,.45].flatMap(x=>[.4,-.4].map(z=>["c",[.17,.12],[x,.2,z],0x3a3d44,[R9,0,0]]))),
+...E("APXS","The alpha proton X-ray spectrometer was pressed against rocks to measure their chemistry.",[["b",[.2,.2,.2],[-.6,.3,0],0xe0a24a]]),
+...E("Cameras and laser hazard detection","Front cameras and a laser system spotted obstacles in its path.",[["c",[.05,.15],[.5,.6,.18],0x222222],["c",[.05,.15],[.5,.6,-.18],0x222222]])];
+const MER=c=>[...E("Rover body","Holds the computer, batteries and electronics, kept warm through cold Martian nights.",[["b",[1.3,.45,1],[0,.75,0],c]]),
+...E("Solar panels","Turn sunlight into power. Dust cut that power: dust devils cleaned Spirit’s panels, and a global dust storm ended Opportunity’s mission.",[["b",[1.45,.04,1.25],[0,1.02,0],0x2a3f8f]]),
+...E("Six wheels","Six driven wheels climb over rocks and sand. Spirit’s dragging wheel scraped up bright silica-rich soil.",[-.6,0,.6].flatMap(x=>[.75,-.75].map(z=>["c",[.22,.16],[x,.25,z],0x3a3d44,[R9,0,0]]))),
+...E("Mast cameras","Pancam takes color panoramas and Navcam takes navigation pictures. The Mini-TES infrared spectrometer looks out from the same mast.",[["c",[.05,.7],[.45,1.4,0],0x888e99],["b",[.3,.12,.2],[.45,1.78,0],0x555a63]]),
+...E("Robotic arm and instruments","Carries the Mössbauer and APXS spectrometers, the Microscopic Imager and the Rock Abrasion Tool that grinds into rock.",[["c",[.06,.7],[.9,.7,.35],0xb8bcc4,[0,0,R9]],["b",[.25,.25,.25],[1.3,.6,.35],0xe0a24a]]),
+...E("High-gain antenna","Talks to Earth directly; the rover also relays data through orbiters.",[["c",[.28,.03],[-.5,1.2,-.3],0xd8d8d8,[.9,0,0]]])];
+MD[4]=MER(0xc9a23a);MD[5]=MER(0xd4a373);
+MD[6]=[...E("Landing legs and footpads","Three legs and footpads absorbed the landing. Surveyor 3 bounced twice before it settled.",[0,2.1,4.2].flatMap(a=>[["c",[.04,1.1],[.55*Math.cos(a),.55,.55*Math.sin(a)],0xbfc3c9],["c",[.2,.04],[.55*Math.cos(a),.03,.55*Math.sin(a)],0x888e99]])),
+...E("Central frame","Carries the electronics, batteries and instruments.",[["b",[.5,.6,.5],[0,1.15,0],0xbfc3c9]]),
+...E("TV camera","Took 6,326 pictures; a movable mirror let it look in different directions.",[["c",[.1,.35],[0,1.75,0],0x555a63]]),
+...E("Soil scoop arm","The surface sampler dug trenches and tested the soil’s strength. Apollo 12 astronauts later cut it off and brought it home.",[["c",[.03,.9],[.55,1.0,.35],0xe3e3e3,[0,0,R9]],["b",[.18,.12,.18],[1.0,.8,.35],0xe0a24a]]),
+...E("Solar panel and antenna","Made power and talked to Earth. It lost power during the first lunar night.",[["b",[.8,.04,.55],[0,2.15,0],0x2a3f8f],["c",[.02,.4],[0,1.95,0],0xeeeeee]])];
+MD[7]=[...E("Lander body","Protected the computer, the biology laboratory and the gas chromatograph mass spectrometer.",[["h",[.9,.45],[0,.95,0],0xc9ccd3]]),
+...E("Legs and footpads","Three landing legs set it down gently on Mars.",[0,2.1,4.2].flatMap(a=>[["c",[.04,.9],[.8*Math.cos(a),.45,.8*Math.sin(a)],0xbfc3c9],["c",[.18,.04],[.8*Math.cos(a),.03,.8*Math.sin(a)],0x888e99]]))
+,...E("High-gain antenna","Talked to Earth directly and through the orbiter overhead.",[["c",[.03,.6],[.2,1.5,-.3],0xcccccc],["c",[.35,.03],[.2,1.85,-.3],0xd8d8d8,[.4,0,0]]]),
+...E("Two RTG power units","Two SNAP-19 radioisotope generators powered it for about six years.",[["c",[.2,.55],[-1.0,.95,.5],0x6b7280,[0,0,R9]],["c",[.2,.55],[-1.0,.95,-.5],0x6b7280,[0,0,R9]]]),
+...E("Sampler arm","A collapsible arm scooped soil for the biology and chemistry tests.",[["c",[.04,1.0],[1.3,.85,.3],0xe3e3e3,[0,0,R9]],["b",[.15,.1,.15],[1.85,.8,.3],0xe0a24a]]),
+...E("Cameras","Two facsimile cameras took the first surface photo and a color panorama.",[["c",[.08,.35],[.3,1.4,.5],0x222222],["c",[.08,.35],[.3,1.4,-.5],0x222222]])];
+MD[8]=[...E("Lander deck","Carries the instruments. Its design came from the Phoenix lander.",[["h",[.8,.18],[0,.7,0],0xc9ccd3]]),
+...E("Round solar panels","Two circular panels powered it. Dust slowly covered them until power ran out in December 2022.",[["c",[.9,.03],[1.2,.9,0],0x2a3f8f,[0,0,.3]],["c",[.9,.03],[-1.2,.9,0],0x2a3f8f,[0,0,-.3]]]),
+...E("SEIS seismometer","The French seismometer sat on the ground under a dome and recorded 1,319 marsquakes.",[["s",[.35],[.5,.2,1.1],0xd4a373]]),
+...E("HP3 heat probe","The German ‘mole’ was meant to burrow into the ground, but could not dig in the soil it met.",[["c",[.12,.5],[-.5,.25,1.1],0xe3e3e3]]),
+...E("Robotic arm","A 1.8 m arm placed the seismometer and heat probe on the ground.",[["c",[.05,1.0],[0,1.0,.5],0xb8bcc4,[R9,0,0]]]),
+...E("Weather sensors","Measured wind, temperature and air pressure, and recorded the sound of Martian wind.",[["c",[.025,.6],[0,1.15,-.3],0xeeeeee]])];
+MD[9]=[...E("High-gain antenna","Sent data back from Jupiter and beyond. Its last signal was heard from 12.23 billion km away.",[["k",[1.3,.35],[0,1.15,0],0xd8d8d8,[Math.PI,0,0]]]),
+...E("Equipment compartment","A hexagonal box holding the electronics and most of the instruments.",[["h",[.5,.35],[0,.6,0],0xc9ccd3]]),
+...E("RTG power booms","Two plutonium-powered SNAP-19 generators, held far out on booms, gave about 140 watts.",[["c",[.02,1.2],[1.0,.6,0],0xcccccc,[0,0,R9]],["c",[.12,.5],[1.5,.6,0],0x6b7280,[0,0,R9]],["c",[.02,1.2],[-1.0,.6,0],0xcccccc,[0,0,R9]],["c",[.12,.5],[-1.5,.6,0],0x6b7280,[0,0,R9]]]),
+...E("Magnetometer boom","A long boom kept the magnetometer away from the spacecraft’s own magnetism. It found Jupiter’s magnetic tail.",[["c",[.015,1.6],[0,.3,-.9],0xcccccc,[R9,0,0]]]),
+...E("Plaque","A gold-anodized aluminum plaque shows a man and woman, our solar system and Earth’s position among 14 pulsars.",[["b",[.3,.2,.02],[.1,.5,.4],0xe6c34a]]),
+...E("Imaging photopolarimeter","Built Jupiter pictures. Jupiter’s radiation later damaged it.",[["c",[.1,.3],[.35,.55,.25],0x222222]])];
+MD[10]=[...E("High-gain antenna","A command takes about a day to reach it and the reply takes another day back.",[["k",[1.4,.4],[0,1.2,0],0xd8d8d8,[Math.PI,0,0]]]),
+...E("Spacecraft body","A ten-sided bus holds the computers and electronics.",[["h",[.55,.4],[0,.65,0],0xc9ccd3]]),
+...E("RTG power boom","Three plutonium generators supply power that drops about 4 watts a year, so instruments are switched off to keep it alive.",[["c",[.02,1.3],[-1.0,.65,0],0xcccccc,[0,0,R9]],["c",[.12,.35],[-.8,.65,0],0x6b7280,[0,0,R9]],["c",[.12,.35],[-1.1,.65,0],0x6b7280,[0,0,R9]],["c",[.12,.35],[-1.4,.65,0],0x6b7280,[0,0,R9]]]),
+...E("Magnetometer boom","A long boom still measures the magnetic field of interstellar space.",[["c",[.015,2.0],[0,.4,-1.0],0xcccccc,[R9,0,0]]]),
+...E("Scan platform","Carried the cameras and spectrometers that imaged Jupiter, Saturn and the Pale Blue Dot.",[["b",[.35,.3,.3],[.55,.55,.35],0x555a63]]),
+...E("Golden Record","A gold-plated disc with greetings in 55 languages, sounds of Earth, music and 115 images.",[["c",[.3,.02],[.1,.5,.5],0xe6c34a,[R9,0,0]]])];
+function model(d){const el=$("#m3"),M=MD[d.id];if(!el||!M||!window.THREE)return;
+const W=el.clientWidth,H=el.clientHeight,sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,W/H,.1,100);cam.position.set(0,2.2,5.8);cam.lookAt(0,.8,0);
+const rd=new THREE.WebGLRenderer({antialias:true,alpha:true});rd.setPixelRatio(Math.min(devicePixelRatio,2));rd.setSize(W,H);el.appendChild(rd.domElement);
+sc.add(new THREE.AmbientLight(0xffffff,.8));const L=new THREE.DirectionalLight(0xffffff,1);L.position.set(3,4,4);sc.add(L);sc.add(new THREE.GridHelper(6,12,0x667788,0x334455));
+const gp=new THREE.Group(),ms=[];sc.add(gp);gp.rotation.y=-.6;
+M.forEach(([n,f,s,a,p,c,r])=>{const g=s==="b"?new THREE.BoxGeometry(...a):s==="c"?new THREE.CylinderGeometry(a[0],a[0],a[1],24):s==="s"?new THREE.SphereGeometry(a[0],20,16):s==="k"?new THREE.ConeGeometry(a[0],a[1],28):new THREE.CylinderGeometry(a[0],a[0],a[1],6),m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:c,roughness:.55,metalness:.35}));m.position.set(...p);if(r)m.rotation.set(...r);m.userData={n};gp.add(m);ms.push(m)});
+const names=[...new Set(M.map(x=>x[0]))],col=new THREE.Color(d.col);$("#pl").innerHTML=names.map(n=>`<button data-n="${n}">${n}</button>`).join("");
+function sel(n){ms.forEach(m=>{m.material.emissive.set(m.userData.n===n?col:0x000000);m.material.emissiveIntensity=.6});document.querySelectorAll("#pl button").forEach(b=>b.classList.toggle("on",b.dataset.n===n));$("#pi").innerHTML=`<h3>${n}</h3><p>${M.find(x=>x[0]===n)[1]}</p>`}
+$("#pl").onclick=e=>{if(e.target.dataset.n)sel(e.target.dataset.n)};
+let dn=0,mv=0,px=0,py=0;
+el.onpointerdown=e=>{dn=1;mv=0;px=e.clientX;py=e.clientY;el.setPointerCapture(e.pointerId)};
+el.onpointermove=e=>{if(!dn)return;const dx=e.clientX-px,dy=e.clientY-py;mv+=Math.abs(dx)+Math.abs(dy);gp.rotation.y+=dx*.008;gp.rotation.x=Math.max(-.6,Math.min(.8,gp.rotation.x+dy*.006));px=e.clientX;py=e.clientY};
+el.onpointerup=e=>{dn=0;if(mv<6){const b=el.getBoundingClientRect(),rc=new THREE.Raycaster();rc.setFromCamera(new THREE.Vector2((e.clientX-b.left)/b.width*2-1,-(e.clientY-b.top)/b.height*2+1),cam);const h=rc.intersectObjects(ms)[0];if(h)sel(h.object.userData.n)}};
+(function f(){if(!document.body.contains(el)){rd.dispose();return}if(!dn)gp.rotation.y+=.004;rd.render(sc,cam);requestAnimationFrame(f)})()}
+const S={};
+S[3]={h:"The girl who named a rover",k:"A twelve-year-old in Connecticut wrote about a woman who told the truth. Her chosen name rolled across Mars.",e:"Who gets to name the things we send into the dark?",n:"NASA/JPL naming release (1995); JPL On a Mission podcast, episode 2; JPL Pathfinder fact sheet.",s:[
+["Connecticut, 1995","Valerie Ambroise is twelve. Her parents came to America from Haiti. NASA has opened a contest: choose a heroine, then explain why a robot on Mars should carry her name."],
+["The essay","She chooses Sojourner Truth, who escaped slavery and spent her life travelling and speaking out. Sojourner, Valerie writes, “went on many journeys and told many truths.” A rover, she says, could travel to find the truths of Mars."],
+["The winner","Thousands of students enter. Hers is picked. The name means traveler, and NASA announces it on the thirtieth anniversary of the first robot flyby of Mars."],
+["July 4, 1997","Pathfinder falls onto Mars wrapped in airbags and bounces to a stop. It is exactly 170 years since Sojourner Truth officially gained her freedom. The next day, a rover the size of a microwave oven rolls down a ramp onto the red dirt."],
+["Eighty-three days","It was built to last a week. It lasts eighty-three days, crawling less than half an inch a second, nuzzling up to rocks and reading their chemistry. It never strays far from the lander that carries its voice home.","j1"],
+["Silence","On September 27, 1997 the last good data arrives. A final signal later carries nothing. NASA keeps listening until March 1998. Nobody knows for sure why the voice stopped."],
+["Still there","Somewhere on a plain called Ares Vallis, a lander and a small rover sit in the cold. Every rover since (Spirit, Opportunity, Curiosity, Perseverance) was named by a student too. It started with a girl who believed a machine could carry a person’s hope."]]};
+S[4]={h:"The orphan who named Spirit",k:"A nine-year-old who once lived in a Siberian orphanage looked at the stars, and wrote two words that crossed them.",e:"What name would you give something you were sending into the dark?",n:"NASA naming release, June 2003; JPL ‘Girl with dreams names Mars rovers’; NASA Spirit mission page.",s:[
+["Siberia","Sofi Collis is born in Siberia and spends her first two years in an orphanage. Then a woman in Scottsdale, Arizona adopts her and brings her to America."],
+["Nine years old","In third grade she enters a contest to name two Mars rovers. In fifty words she tells the truth: “I used to live in an orphanage. It was dark and cold and lonely.” At night the sky made her feel better. She dreamed she could fly there."],
+["Spirit and Opportunity","In America, she writes, her dreams can come true. Her thank-you is two words: Spirit and Opportunity. Out of ten thousand entries NASA picks hers, and flies her to Florida to watch the first rover leave Earth."],
+["January 2004","On the night of January 3 (Pacific time), Spirit bounces twenty-eight times across Gusev crater inside its airbags and stops. It is built to work for ninety days.","m1"],
+["The long drive","It keeps going. It climbs a hill. Dust devils sweep its panels clean. A wheel starts to fail, and the dragging wheel digs up bright, silica-rich soil: a clue to ancient hot springs. A broken part becomes a discovery."],
+["The trap","On May 1, 2009 its wheels break through soft soil beside a plateau called Home Plate. Winter is coming, and Spirit cannot tilt its panels toward the Sun."],
+["The silence","The last message arrives on March 22, 2010. For more than a year, engineers send over thirteen hundred commands into the Martian night. On May 25, 2011, NASA stops."],
+["Twenty-five times longer","A girl who once looked up from a cold place wrote a name that left the planet. Spirit worked for more than six years, about twenty-five times its plan, and now rests where it stopped."]]};
+S[5]={h:"Goodnight, Opportunity",k:"It was built for ninety days. It lasted fifteen years, and then a dust storm ended it while a room full of people played it a song.",e:"What do we owe the things that work for us until they can’t?",n:"NASA/JPL mission-end statements, Feb 2019; Planetary Society MER update; AP and ABC coverage; NASA Opportunity page.",s:[
+["Eagle crater","Opportunity lands on January 24, 2004 (Pacific time) in a small crater on a flat plain called Meridiani. It is guaranteed for ninety Martian days."],
+["Fifteen years","The warranty runs out and it keeps rolling. It finds a meteorite lying on the sand. It finds rock that was soaked in water. It drives 45 kilometers, the first marathon anyone has run on another world.","n1"],
+["Morning songs","Mission control had a tradition: wake the rover with a song."],
+["June 2018","A dust storm the size of a planet blackens the sky over Opportunity. Its solar panels starve. On June 10 it sends one last signal, and then nothing."],
+["The words","Journalists put its last data into a sentence that spread around the world: “My battery is low and it’s getting dark.” The rover never wrote that. People needed it anyway."],
+["Eight months","The team keeps sending commands for months, hoping a wind will sweep the panels clean. Hundreds of commands go up. Only static comes back."],
+["February 12, 2019","About 8 p.m. in Pasadena, the final commands go up while the room plays Billie Holiday’s “I’ll Be Seeing You.” Some people cry. The speakers hold only static."],
+["After rovers","The next day NASA declares the mission complete. Project manager John Callas tells the team their lives will now divide into Before Rovers and After Rovers. The rover ended in Perseverance Valley. On October 11, 2026, a newer rover, Perseverance, passed its distance record."]]};
+S[10]={h:"A love letter on a golden record",k:"Nine months before launch, NASA asked for a message to the stars. Ann Druyan fell in love, and her brainwaves rode along.",e:"If you could send one minute of yourself to the stars, what would it hold?",n:"Science@NASA, ‘Voyager, the Love Story’ (2011); NASA Voyager pages and blog (Oct 2026); Smithsonian coverage.",s:[
+["Six impossible weeks","Less than nine months before launch, NASA asks Carl Sagan for a message for any civilization that might one day find Voyager. His small team has to decide what Earth sounds like."],
+["June 1, 1977","In the middle of the rush, Sagan and Ann Druyan, the project’s creative director, share a phone call that changes everything. Without a date or a quiet evening, they have fallen in love."],
+["June 3","Two days later, Ann sits in a New York room, wired to machines that record her brain and heartbeat for an hour. She thinks about Earth’s history, about the troubles of civilizations, and about what it feels like to fall in love."],
+["One minute","The hour is squeezed into about a minute of sound and pressed into the grooves of a gold-plated disc. It rides beside greetings in 55 languages. The last is a small boy’s: “Hello from the children of planet Earth.” He is Carl’s son, Nick."],
+["September 5, 1977","Voyager 1 lifts off. The record is bolted to its side, with instructions for anyone who wants to play it."],
+["A dot","On Valentine’s Day 1990, Voyager 1 turns its camera back and photographs Earth from billions of miles away. Sagan names the picture Pale Blue Dot."],
+["Today","In 2012 it entered interstellar space. Now NASA turns off its instruments one by one to keep it alive. On November 18, 2026 it reaches one light-day from home: a message sent today takes a full day to arrive."],
+["Still playing","Carl and Ann married in 1981 and stayed together until he died in 1996. Somewhere past the edge of the Sun, an hour of a young woman’s heart goes on travelling at about 38,000 miles an hour."]]};
+S[1]={h:"The keys left in the dust",k:"Two commanders, two rovers, two secret promises to people they loved and lost.",e:"What would you leave behind for the next person?",n:"NASA MSFC rover history; NASA Apollo 15 mission accounts; AP obituary of Eugene Cernan (2017).",s:[
+["Hadley, August 1971","At the end of their last moonwalk, Dave Scott and Jim Irwin park their rover where its TV camera can watch their liftoff.","l2"],
+["A secret","Behind the rover, off camera, Scott lays a tiny aluminum figure of a fallen astronaut and a plaque with fourteen names: American astronauts and Soviet cosmonauts who died reaching for the sky. He has told no one at NASA. He photographs it, then climbs home.","l1"],
+["Taurus-Littrow, December 14, 1972","Gene Cernan, the last of twelve people to walk on the Moon, is about to climb the ladder for the final time.","l3"],
+["Three letters","He kneels and traces three letters in the dust: TDC. They are the initials of his daughter, Tracy, who is nine. He imagines someone far in the future finding the rover and footprints and wondering what ancient civilization left these marks.","l3"],
+["Goodbye","His rover’s camera is set to watch him leave. His last words on the Moon ask that humanity return “with peace and hope for all mankind.”","l5"],
+["Three valleys","Three rovers carried three crews farther than any walker could go. They stand in three valleys now, their tracks still visible from orbit, with no wind or rain to wipe them out.","l4"]]};
+S[2]={h:"The night the Moon rang like a bell",k:"The astronauts left, and five little stations stayed to listen to a world.",e:"Who is still listening?",n:"NASA Apollo Flight Journal; NASA ALSEP termination report (RP-1036); NASA InSight release (April 2019).",s:[
+["Apollo 12, 1969","The astronauts have gone home. Houston sends the empty lunar module crashing into the Moon on purpose, about 39 nautical miles from the seismometer they left behind.","a3"],
+["Fifty-five minutes","The seismometer feels it for some 55 minutes. The Moon rings like a bell. On Earth, a rumble like that would fade in about a minute.","a2"],
+["Five stations","Over three years, five stations are set up. Each one is a small camp of instruments powered by a plutonium generator. They listen for moonquakes, meteoroid hits, and heat leaking from deep inside.","a5"],
+["Built for a year","They were designed to run for a year or two. They run for up to eight. They show the Moon is not a dead rock.","a4"],
+["September 30, 1977","NASA stops commanding the stations. They did not fail. The money was needed elsewhere. They are still there.","a1"],
+["The handoff","In 2019 a lander on Mars, InSight, hears its first marsquake. Its lead scientist says the readings carry on the science that began with the Apollo missions."]]};
+S[6]={h:"The robot that waited for visitors",k:"It slept alone on the Moon for two and a half years. Then two men walked over to say hello.",e:"What would you say to a machine that waited for you?",n:"NASA Science (Surveyor 3); NASA Apollo Lunar Surface Journal; Alan Bean Gallery; TIME (1969).",s:[
+["April 1967","Surveyor 3 bounces twice and settles on a slope inside a small crater. It sends back thousands of pictures and digs trenches to learn if the Moon can hold a human spacecraft.","s1"],
+["The night","On May 4, 1967 comes its last contact. Lunar night closes over it, and it never answers again."],
+["Pete’s parking lot","Thirty-one months later, Pete Conrad aims Apollo 12 at that very crater. The lander touches down just 180 meters away. “Right down the middle of the road,” he says.","s2"],
+["An old friend","Conrad and Bean walk over like visitors to an old friend. Bean would later paint the moment, and call the series Visiting an Old Friend.","s3"],
+["An afterthought","They cut off its TV camera and cables. The scoop comes last; it was not even on the list. NASA wanted to know what thirty-one months on the Moon had done to materials.","s1"],
+["Still there","The rest of Surveyor 3 stays. In the photo, Conrad stands beside it with his own lander behind him: two machines from two eras, side by side.","s2"]]};
+S[7]={h:"The memorial in the red dust",k:"The man who built Mars’s first camera died on a mountain. His name stayed on the lander.",e:"Who will carry the plaque?",n:"NASA Science (Viking 1); NASA Photojournal PIA08709 (Mutch Crater); JPL (1983).",s:[
+["July 20, 1976","Viking 1 lands in Chryse Planitia and takes the first photograph from the surface of Mars. Tim Mutch leads the team that designed the cameras and reads those first pictures."],
+["Two worlds","Mutch is a geologist, and a climber. He has already explored the Moon in books and mountains on Earth. In 1978 he leads a team of students up a 21,900-foot Himalayan peak; twenty-four reach the top."],
+["October 1980","On the slopes of Mount Nun in the Himalayas, descending from the summit, Tim Mutch dies. He is 49, and on leave from his university to serve as NASA’s head of space science."],
+["A new name","Afterward, NASA renames the Viking 1 lander the Thomas A. Mutch Memorial Station."],
+["A plaque for Mars","A stainless-steel plaque honors his “imagination, verve, and resolve.” It is meant to be placed on the lander someday by a team of explorers."],
+["Silence","The lander works for six years. On November 11, 1982, a faulty command from Earth ends contact. JPL gives up the search in April 1983."],
+["Waiting","The lander still sits on the Golden Plain with its new name. A crater on Mars is called Mutch too, and the plaque still waits for someone to carry it."]]};
+S[8]={h:"Thirty years of listening",k:"A scientist spent decades waiting to hear one quake on Mars. Then dust slowly turned the lights off.",e:"What would you listen to for thirty years?",n:"NASA/JPL InSight pages; National Geographic (April 2019); Space.com; CBS and CNN (Dec 2022).",s:[
+["The 1980s","Bruce Banerdt starts dreaming of a seismometer on Mars. For about thirty years, he says, he has been chasing a single marsquake."],
+["November 2018","InSight lands on a smooth plain called Elysium Planitia and, weeks later, sets its seismometer gently on the ground."],
+["Nothing","For months it hears only wind and its own lander. Banerdt jokes that he started not answering NASA’s phone calls."],
+["April 6, 2019","On the 128th Martian day, a faint tremble arrives, the first from the inside of another world. “A sigh of relief went up from the team,” Banerdt recalls."],
+["The mole","A German heat probe tries to hammer itself into the ground. The soil is too loose for it to grip. For nearly two years the team tries everything. Banerdt later calls it a bust."],
+["May 4, 2022","The biggest quake of the entire mission hits, a magnitude 5, just before the lander switches off instruments to save power. The team feels lucky."],
+["Dust","Dust gathers on the solar panels. Instruments go dark one by one. Its social-media account, written by its team in its voice, says its time “has been both productive and serene.”"],
+["A friend on Mars","For four years, Banerdt says, the team thought of InSight as their friend and colleague on Mars. It heard more than 1,300 quakes."]]};
+S[9]={h:"A message for strangers",k:"A machine built for twenty-one months carried a drawing of two humans out of the solar system.",e:"What would you tell a stranger?",n:"NASA Science (Pioneer 10); NASA Ames press release (Feb 2003); NASA Pioneer facts; New Humanist (plaque anecdote).",s:[
+["A few weeks","Carl Sagan and Frank Drake have only a short time to design a greeting for Pioneer 10. What do you say to someone you may never meet?"],
+["Linda’s drawing","The artist Linda Salzman Sagan draws the figures: a man and a woman beside the spacecraft, to show scale. Reportedly she first drew them holding hands, then worried a stranger might see one creature."],
+["March 1972","Pioneer 10 leaves Earth on a mission planned for twenty-one months."],
+["Jupiter","In December 1973 it becomes the first spacecraft to fly past Jupiter, through radiation that damages its instruments, and sends back hundreds of pictures."],
+["Leaving","In 1983 it becomes the first human-made object to cross Neptune’s orbit. It keeps going, toward the red star Aldebaran."],
+["The warranty","Its project manager, Larry Lasher, calls it “a workhorse that far exceeded its warranty.” It lasts more than thirty years."],
+["January 2003","Its last weak signal comes from 7.6 billion miles away. It takes 11 hours and 20 minutes to reach Earth. The voice we heard was already half a day old."],
+["Still carrying","A final attempt in 2006 hears nothing. The plaque keeps going: a man, a woman, and a map to home, headed for a star about two million years away."]]};
+const feat=()=>`<h2>Start with a story</h2><div class="grid">${[10,3,1].map(i=>{const d=D.find(x=>x.id===i);return `<a class="card cc" style="--c:${d.col};text-decoration:none;color:inherit" href="#story-${i}"><div class="note">${d.n}</div><h3>${S[i].h}</h3><p class="note">${S[i].k}</p></a>`}).join("")}</div>`;
+const storyHero=d=>`<div class="card cc" style="--c:${d.col};margin:12px 0"><div class="note">THE STORY</div><h2 style="margin:.2em 0">${S[d.id].h}</h2><p>${S[d.id].k}</p><a class="btn" href="#story-${d.id}">Begin the story</a></div><h2 style="margin-top:22px">The machine</h2>`;
+let ri=0,rid=0;
+function reader(id){if(!S[id])return;rid=id;ri=0;const d=D.find(x=>x.id===id);const R=$("#rd");R.style.setProperty("--c",d.col);R.classList.add("on");drawR()}
+function closeR(){location.hash="#item-"+rid}
+function nextR(){ri++;drawR()}function prevR(){if(ri>0){ri--;drawR()}}
+function drawR(){const s=S[rid],n=s.s.length,R=$("#rd"),pr=`<div class="rp">${s.s.map((_,i)=>`<i class="${i<=ri?"on":""}"></i>`).join("")}</div><button class="rx" onclick="closeR()" aria-label="Close">×</button>`;
+if(ri>=n){const nx=rid%10+1;R.innerHTML=`${pr}<div class="rc"><p class="rch">THE END</p><p class="rtx">${s.e}</p><a class="btn" href="#item-${rid}">See the machine</a><a class="btn alt" href="#story-${nx}">Next: ${S[nx].h}</a><p class="note" style="margin-top:18px">Sources: ${s.n}</p></div>`;return}
+const [ch,tx,im]=s.s[ri];R.innerHTML=`${im?`<div class="rb" style="background-image:url('${IMG[im]}')"></div>`:""}${pr}<div class="rc"><p class="rch">${ch}</p><p class="rtx">${tx}</p></div><div class="rn"><button onclick="event.stopPropagation();prevR()">‹ Back</button><span>${ri+1} / ${n}</span><button onclick="event.stopPropagation();nextR()">Next ›</button></div>`}
+document.addEventListener("keydown",e=>{if(!$("#rd").classList.contains("on"))return;if(e.key==="ArrowRight")nextR();if(e.key==="ArrowLeft")prevR();if(e.key==="Escape")closeR()});
+$("#rd").addEventListener("click",e=>{if(e.target.closest("button,a"))return;if(ri>=S[rid].s.length)return;e.clientX<innerWidth*.3?prevR():nextR()});
+const PIC={1:"images/bg-1.jpg",2:"images/bg-2.jpg",3:"images/bg-3.jpg"};
+function bgp(h){const k=/^item-/.test(h)?"item":h,n={home:1,library:1,science:2,quiz:2}[k]||3,e=$("#pic");if(e.dataset.k==n)return;e.dataset.k=n;e.classList.remove("on");setTimeout(()=>{e.style.backgroundImage=`url("${PIC[n]}")`;e.classList.add("on")},350)}
+addEventListener("hashchange",route);route();
+</script><script>
+if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0)navigator.serviceWorker.register("service-worker.js");
+(function(){var ip=null,st=matchMedia("(display-mode: standalone)").matches||navigator.standalone,ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+function bar(msg,btn){if(st||document.getElementById("inst")||sessionStorage.getItem("noinst"))return;var d=document.createElement("div");d.id="inst";d.style.cssText="position:fixed;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:30;background:#0b3d91;color:#fff;border-radius:12px;padding:10px 14px;font:14px system-ui,sans-serif;display:flex;gap:10px;align-items:center;box-shadow:0 4px 18px rgba(0,0,0,.4)";
+d.innerHTML="<span style='flex:1'>"+msg+"</span>"+(btn?"<button id='ib' style='background:#fc3d21;color:#fff;border:0;border-radius:8px;padding:8px 14px;font-weight:700'>Install</button>":"")+"<button id='ix' style='background:none;color:#fff;border:0;font-size:22px'>×</button>";document.body.appendChild(d);
+document.getElementById("ix").onclick=function(){d.remove();try{sessionStorage.setItem("noinst","1")}catch(e){}};
+var b=document.getElementById("ib");if(b)b.onclick=function(){ip.prompt();ip.userChoice.then(function(){d.remove()})}}
+addEventListener("beforeinstallprompt",function(e){e.preventDefault();ip=e;bar("Install Vestige as an app on your phone",true)});
+if(ios&&!st)setTimeout(function(){bar("Install: tap Share, then Add to Home Screen",false)},2500)})();
+</script>
+</body></html>
