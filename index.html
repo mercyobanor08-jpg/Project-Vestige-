@@ -248,7 +248,7 @@ const n=x.createRadialGradient(W*.75+Math.sin(t/9000)*40,H*.25,0,W*.75,H*.25,W*.
 S.forEach(s=>{s.y+=rm?0:s.v;if(s.y>H)s.y=0;x.globalAlpha=.25+.6*Math.abs(Math.sin(t/900+s.p));x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill()});x.globalAlpha=1}
 function lp(t){dr(t);if(!rm)requestAnimationFrame(lp)}rs();addEventListener("resize",()=>{rs();dr(0)});lp(0)})();
 const COL={1:"#f2a33a",2:"#22c3b0",3:"#e0569f",4:"#ff6b4a",5:"#2fbf71",6:"#9b7bff",7:"#4aa3ff",8:"#ffd23f",9:"#c6e03a",10:"#e8ecff"};D.forEach(d=>d.col=COL[d.id]);
-const IMG={};"l1 l2 l3 l4 l5 a1 a2 a3 a4 a5 s1 s2 s3 j1 m1 n1 n2 n3 n4 x1".split(" ").forEach(k=>IMG[k]="images/p-"+k+".jpg");
+const IMG={};"l1 l2 l3 l4 l5 a1 a2 a3 a4 a5 s1 s2 s3 j1 m1 n1 n2 n3 n4 x1".split(" ").forEach(k=>IMG[k]="p-"+k+".jpg");
 const LR="Lunar Roving Vehicle",AL="ALSEP",SU="Surveyor 3",ER="Early Mars rovers",TN="Then and now: Mars today",AR="More from the archive";
 const G=[["l1","The Lunar Roving Vehicle parked on the Moon with its dish antenna raised.",[1],LR],["l2","An astronaut beside the Lunar Roving Vehicle on the Moon.",[1],LR],["l3","Astronaut at the rover’s control console on the Moon, Apollo 17.",[1],LR],["l4","Artist’s sequence showing how the rover was unfolded from the Lunar Module (NASA Marshall).",[1],LR],["l5","Apollo 17 rover traverses: routes driven around the landing site.",[1],LR],
 ["a1","An ALSEP instrument box resting on the lunar surface.",[2],AL],["a2","The Passive Seismic Experiment under its reflective thermal skirt.",[2],AL],["a3","An ALSEP central station with its antenna mast, wrapped in foil.",[2],AL],["a4","An ALSEP station: central station behind, seismometer under foil in front.",[2],AL],["a5","An ALSEP array on the Moon with flags marking the instruments.",[2],AL],
