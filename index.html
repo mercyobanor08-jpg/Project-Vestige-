@@ -423,8 +423,7 @@ function drawR(){const s=S[rid],n=s.s.length,R=$("#rd"),pr=`<div class="rp">${s.
 if(ri>=n){const nx=rid%10+1;R.innerHTML=`${pr}<div class="rc"><p class="rch">THE END</p><p class="rtx">${s.e}</p><a class="btn" href="#item-${rid}">See the machine</a><a class="btn alt" href="#story-${nx}">Next: ${S[nx].h}</a><p class="note" style="margin-top:18px">Sources: ${s.n}</p></div>`;return}
 const [ch,tx,im]=s.s[ri];R.innerHTML=`${im?`<div class="rb" style="background-image:url('${IMG[im]}')"></div>`:""}${pr}<div class="rc"><p class="rch">${ch}</p><p class="rtx">${tx}</p></div><div class="rn"><button onclick="event.stopPropagation();prevR()">‹ Back</button><span>${ri+1} / ${n}</span><button onclick="event.stopPropagation();nextR()">Next ›</button></div>`}
 document.addEventListener("keydown",e=>{if(!$("#rd").classList.contains("on"))return;if(e.key==="ArrowRight")nextR();if(e.key==="ArrowLeft")prevR();if(e.key==="Escape")closeR()});
-$("#rd").addEventListener("click",e=>{if(e.target.closest("button,a"))return;if(ri>=S[rid].s.length)return;e.clientX<innerWidth*.3?prevR():nextR()});
-const PIC={1:"images/const PIC={1:"Bg-1.jpg",2:"bg-2.jpg",3:"bg-3.jpg"};.jpg",2:"images/bg-2.jpg",3:"images/bg-3.jpg"};
+$("#rd").addEventListener("click",e=>{if(e.target.closest("button,a"))return;if(ri>=S[rid].s.length)return;e.clientX<innerWidth*.3?prevR():next
 function bgp(h){const k=/^item-/.test(h)?"item":h,n={home:1,library:1,science:2,quiz:2}[k]||3,e=$("#pic");if(e.dataset.k==n)return;e.dataset.k=n;e.classList.remove("on");setTimeout(()=>{e.style.backgroundImage=`url("${PIC[n]}")`;e.classList.add("on")},350)}
 addEventListener("hashchange",route);route();
 </script><script>
